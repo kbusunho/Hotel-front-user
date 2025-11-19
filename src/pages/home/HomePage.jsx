@@ -7,15 +7,15 @@ import HeroSearchWrap from "../../components/home/HeroSearchWrap";
 import "../../styles/pages/home/HomePage.scss";
 
 const HomePage = () => {
- return (
-  <div className="home-page top-container">
-   <HeroSection />
-   <HeroSearchWrap />
-   <PopularDestinations />
-   <TravelMore />
-   <Newsletter />
-  </div>
- );
+  return (
+    <div className="home-page top-container">
+      <HeroSection />
+      <HeroSearchWrap />
+      <PopularDestinations />
+      <TravelMore />
+      <Newsletter />
+    </div>
+  );
 };
 
 export default HomePage;
