@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import HeroCard from "./HeroCard";
@@ -6,9 +6,12 @@ import HeroCard from "./HeroCard";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation"; // 혹시 모를 스타일 깨짐 방지
 
 import "../../styles/components/home/HeroSection.scss";
-import { Pagination } from "swiper/modules";
+
+// ✅ [핵심 1] Autoplay 모듈 가져오기
+import { Pagination, Autoplay } from "swiper/modules";
 
 const HeroSection = () => {
   const heroSlides = [
@@ -40,14 +43,19 @@ const HeroSection = () => {
   return (
     <div className="hero-section">
       <Swiper
-        pagination={true}
-        modules={[Pagination]}
-        className="hero-swiper"
+        // ✅ [핵심 2] 여기에 Autoplay가 꼭 있어야 작동합니다!
+        modules={[Pagination, Autoplay]}
+        
+        pagination={{ clickable: true }}
         loop={true}
+        className="hero-swiper"
+        
+        // ✅ [핵심 3] 자동 넘김 설정
         autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
+          delay: 3000, // 3초마다 넘어감
+          disableOnInteraction: false, // 마우스로 클릭해도 멈추지 않고 계속 작동
         }}
+        speed={1000} // 슬라이드 전환 속도
       >
         {heroSlides.map((slide, index) => (
           <SwiperSlide key={index}>
@@ -57,7 +65,7 @@ const HeroSection = () => {
               description={slide.description}
               backgroundImage={slide.backgroundImage}
               className={slide.className}
-              searchForm={index === 0} // 첫 번째 슬라이드에만 검색 폼 표시
+              searchForm={index === 0}
             />
           </SwiperSlide>
         ))}

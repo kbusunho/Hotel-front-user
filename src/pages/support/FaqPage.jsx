@@ -9,7 +9,7 @@ const FaqPage = () => {
         <div className="faq-list">
           <details className="faq-item">
             <summary>예약 취소는 어떻게 하나요?</summary>
-            <div className="faq-answer">마이페이지 > 예약 내역에서 취소 가능합니다.</div>
+            <div className="faq-answer">마이페이지 &gt; 예약 내역에서 취소 가능합니다.</div>
           </details>
           <details className="faq-item">
             <summary>체크인 시간은 언제인가요?</summary>

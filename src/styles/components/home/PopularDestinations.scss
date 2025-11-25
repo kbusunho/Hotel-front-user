@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../../common/variables" as *;
 @use "../../common/mixins" as *;
 
@@ -34,17 +35,23 @@ section.container {
   }
   
   .btn-see-all {
-    padding: 1rem 2rem;
+    padding: 2rem 3rem;
     border: 1px solid #8DD3BB;
     color: $color-secondary;
     border-radius: 0.5rem;
     font-weight: 600;
+    font-size:1.5rem;
     background: transparent;
     cursor: pointer;
     white-space: nowrap;
+    transition: all 0.3s ease;
     
     &:hover {
       background: #8DD3BB;
+      background: #8DD3BB;        
+      border-color: #8DD3BB;      
+      color: #fff;                
+      transform: translateY(-2px);
     }
   }
 }
@@ -187,7 +194,8 @@ section.container {
       white-space: nowrap;
 
       &:hover {
-        background-color: darken(#8DD3BB, 10%);
+        /* ✅ 2. color.adjust로 변경 */
+        background-color: color.adjust(#8DD3BB, $lightness: -10%);
       }
     }
   }

@@ -12,7 +12,8 @@ const Footer = () => {
      <div className="social-links">
       <div className="logo">HotelHub</div>
       <p className="description">
-       혁신적 호텔 여행의 모든 순간, HotelHub과 함께하세요.
+       혁신적 호텔 여행의 모든 순간,
+        <br/>HotelHub과 함께하세요.
       </p>
       <div className="social-icons">
        {socialLinks.map((social, index) => (
@@ -43,6 +44,7 @@ const Footer = () => {
 
      <div className="follow-us">
       <h4 className="follow-title">Follow Us</h4>
+
       <div className="follow-icons">
        <a href="#" className="follow-link facebook" aria-label="Facebook"></a>
        <a href="#" className="follow-link instagram" aria-label="Instagram"></a>
