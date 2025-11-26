@@ -1,154 +1,201 @@
 @use "../../common/variables" as *;
 @use "../../common/mixins" as *;
 
+/* 1. 전체 레이아웃 잡기 */
 .travel-more {
-  padding: 6rem 0;
+  padding: 4rem 0 20rem;
+  width: 100%;
 
+  .inner {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* 헤더 (제목+버튼) */
   .section-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
+    align-items: flex-start;
+    margin-bottom: 3rem;
 
-    .section-title {
-      font-size: 2.8rem;
-      font-weight: 800;
-      color: $color-secondary;
+    .text-group {
+      max-width: 80rem;
+      .section-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        color: $color-secondary;
+        margin-bottom: 1rem;
+      }
+      .section-subtitle {
+        font-size:2rem;
+        color: $color-text-secondary;
+        line-height: 1.6;
+      }
     }
-
     .see-all-btn {
-      padding: 0.8rem 1.6rem;
-      border: 1px solid $color-border;
-      border-radius: 0.8rem;
-      background: #fff;
+      font-size:1.5rem;
+      padding: 2rem 3rem;
+      border: 1px solid #8DD3BB;
+      border-radius: 0.5rem;
+      background: transparent;
+      font-weight: 600;
       cursor: pointer;
-      &:hover { background: $color-bg-alt; }
+      white-space: nowrap;
+      transition: all 0.3s ease;
+      &:hover {
+        
+        background: #8DD3BB;         
+        color: #fff;                 
+        transform: translateY(-2px); 
+      }
     }
   }
 
-  .section-subtitle {
-    color: $color-text-secondary;
-    margin-bottom: 4rem;
-    max-width: 60rem;
-    font-size: 1.5rem;
-    line-height: 1.6;
-  }
-
+  /* ✅ 여기가 핵심: 좌우 5:5 분할 및 높이 고정 */
   .travel-content {
-    display: flex;
-    gap: 2rem;
-    height: 45rem; // 전체 높이 고정
+    display: flex; /* 좌우 배치 */
+    gap: 2rem;     /* 사이 간격 */
+    width: 100%;
+    height: 50rem; /* 전체 높이 고정 (중요) */
 
-    @include respond-md {
+    @media (max-width: 1024px) {
       flex-direction: column;
       height: auto;
     }
   }
 }
 
-/* 왼쪽 큰 카드 (MalakaTour) */
+/* 2. 왼쪽 말라카 투어 카드 (너비 50%) */
 .malaka-tour-card {
-  flex: 1; // 50% 비율
-  background-color: #8FD3C6; // 민트색 배경 (이미지 없을 때)
-  background-image: url('/images/malaka.jpg'); // 실제 이미지 경로
-  background-size: cover;
-  background-position: center;
+  flex: 1; 
+  background-color: #8DD3BB;
   border-radius: 2rem;
   overflow: hidden;
   position: relative;
-  
-  @include respond-md {
-    min-height: 40rem;
+  height: 100%; 
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 1rem 2rem rgba(0,0,0,0.05);
+
+  &:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 1.5rem 3rem rgba(0,0,0,0.15); 
   }
 
   .content-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
+    height: 100%;
+    box-sizing: border-box;
     padding: 3rem;
-    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-    color: #fff;
     
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1.5rem;
+    
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
 
-      h3 {
-        font-size: 2.8rem;
-        font-weight: 700;
-      }
+    /* 상단 정보 (제목, 가격, 설명) */
+    .top-section {
+      width: 100%;
       
-      .price-tag {
-        background: #fff;
-        color: $color-secondary;
-        padding: 0.8rem 1.2rem;
-        border-radius: 1rem;
-        text-align: center;
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+
+        h3 {
+          font-size: 3.6rem;
+          font-weight: 800;
+          color: #112211;
+          margin: 0;
+          line-height: 1;
+        }
         
-        .label { display: block; font-size: 1.2rem; color: $color-text-muted; }
-        .amount { display: block; font-size: 1.8rem; font-weight: 800; }
+        .price-box {
+          background: #fff;
+          padding: 0.8rem 1.5rem;
+          border-radius: 1rem;
+          text-align: center;
+          flex-shrink: 0;
+          margin-left: 1rem;
+          
+          .label { font-size: 1.2rem; display: block; font-weight: 600; }
+          .amount { font-size: 2rem; font-weight: 800; display: block; line-height: 1; }
+        }
+      }
+
+      .description {
+        font-size: 1.5rem;
+        line-height: 1.6;
+        color: #112211;
+        font-weight: 500;
+        word-break: keep-all;
+        margin-top: 1rem;
       }
     }
 
-    .description {
-      font-size: 1.4rem;
-      line-height: 1.6;
-      margin-bottom: 2.5rem;
-      opacity: 0.9;
-      @include text-ellipsis(3); // 3줄 이상 말줄임
-    }
-
+    /* 하단 버튼 (맨 아래 고정) */
     .btn-book-flight {
       width: 100%;
-      padding: 1.2rem;
+      height: 5.5rem;
       background: #fff;
-      color: $color-secondary;
+      color: #112211;
       border: none;
-      border-radius: 1rem;
+      border-radius: 0.5rem;
       font-weight: 700;
+      font-size: 1.6rem;
       cursor: pointer;
-      &:hover { background: #f9fafb; }
+      margin-top: auto;
+      
+      /* ✅ 추가된 애니메이션 설정 */
+      transition: all 0.3s ease; /* 모든 변화를 0.3초 동안 부드럽게 */
+      box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.05); /* 평소엔 옅은 그림자 */
+
+      /* ✅ 마우스 올렸을 때 (Hover) 효과 */
+      &:hover {
+        transform: translateY(-3px); /* 버튼이 위로 3px 둥실 떠오름 */
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15); /* 그림자가 진해져서 공중에 뜬 느낌 */
+        background-color: #f8fafc; /* 배경색이 아주 살짝 변함 (반응감) */
+      }
+
+      /* (선택) 클릭하는 순간 살짝 눌리는 느낌 */
+      &:active {
+        transform: translateY(-1px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+      }
     }
   }
 }
 
-/* 오른쪽 이미지 그리드 (TravelGallery) */
+/* 3. 오른쪽 갤러리 (너비 50%, 2x2 그리드) */
 .travel-gallery {
-  flex: 1;
+  flex: 1; /* 부모 공간의 50% 차지 */
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   gap: 2rem;
-
-  @include respond-md {
-    height: 40rem; // 모바일에서의 높이
-  }
+  
+  height: 100%; /* 부모 높이(50rem) 상속 */
 
   .gallery-item {
+    background-color: #ddd;
     border-radius: 2rem;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    position: relative;
-    background-color: #e5e7eb; // 이미지 없을 때 회색
+    
+    img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    }
 
-    .placeholder-image {
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.3s;
+      &:hover img {
+      transform: scale(1.1);
     }
-    
-    &:hover .placeholder-image {
-      transform: scale(1.05);
-    }
-    
-    // 임시: 각 아이템에 다른 배경색 부여 (이미지 대용)
-    &:nth-child(1) .placeholder-image { background-color: #A7C7E7; }
-    &:nth-child(2) .placeholder-image { background-color: #C1E1C1; }
-    &:nth-child(3) .placeholder-image { background-color: #FFD1DC; }
-    &:nth-child(4) .placeholder-image { background-color: #E6E6FA; }
+
   }
 }

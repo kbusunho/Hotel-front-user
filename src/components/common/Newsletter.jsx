@@ -5,36 +5,44 @@ const Newsletter = () => {
   return (
     <div className="newsletter-section">
       <div className="inner">
-        <div className="newsletter-content">
-          <div className="text-content">
-            <h2 className="newsletter-title">
-              구독서비스
-              <br />
-              신청해보세요
+        <div className="newsletter-card">
+          
+          {/* 1. 왼쪽: 텍스트 및 입력 폼 */}
+          <div className="content-container">
+            <h2 className="title">
+              구독서비스<br />신청해보세요
             </h2>
-            <p className="newsletter-desc">
-              The Travel
-              <br />
-              구독하고 쿠폰, 최신 이벤트를 받아보세요.
-            </p>
-          </div>
-          <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
-            <div className="input-group">
+            <div className="description-group">
+              <p className="sub-title">The Travel</p>
+              <p className="desc">구독하고 쿠폰, 최신 이벤트를 받아보세요.</p>
+            </div>
+
+            <form className="email-form" onSubmit={(e) => e.preventDefault()}>
               <input
                 type="email"
                 placeholder="Your email address"
-                className="newsletter-input"
+                className="email-input"
               />
-              <button type="submit" className="newsletter-btn">
+              <button type="submit" className="submit-btn">
                 Subscribe
               </button>
-            </div>
-          </form>
-          {/* 우측 일러스트 이미지 (배경으로 처리하거나 img 태그 사용) */}
-          <div className="newsletter-illustration">
-             {/* 이미지 파일이 있다면 여기에 <img src="..." /> 추가 */}
-             {/* 현재는 CSS 배경이나 박스로 처리됨 */}
+            </form>
           </div>
+
+          {/* 2. 오른쪽: CSS로 만든 3D 우체통 */}
+          <div className="mailbox-illustration">
+            <div className="mailbox-body">
+              {/* 입체감을 위한 뒷부분 (어두운 색) */}
+              <div className="mailbox-depth"></div>
+              {/* 앞부분 (밝은 색) */}
+              <div className="mailbox-front"></div>
+              {/* 깃발 */}
+              <div className="mailbox-flag"></div>
+            </div>
+            {/* 기둥 */}
+            <div className="mailbox-post"></div>
+          </div>
+
         </div>
       </div>
     </div>
