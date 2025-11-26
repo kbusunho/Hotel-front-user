@@ -9,6 +9,7 @@ $color-bg: #ffffff;
 $color-bg-alt: #f9fafb;
 $color-border: #e5e7eb;
 $color-muted: #9ca3af;
+$color-mint: #8DD3BB; 
 
 // Text colors
 $color-text: #1f2937;
@@ -45,8 +46,7 @@ $spacing-section: 10rem;
 $breakpoint-md: 76.8rem;
 $max-width-container: 128rem;
 
-// ✅ [수정됨] 에러 해결을 위해 $gutter 추가
-$gutter: 1rem;       // 기본 gutter (HeroCard 등에서 사용)
+$gutter: 1rem;
 $gutter-sm: 1rem;
 $gutter-md: 1.6rem;
 $gutter-lg: 2rem;
