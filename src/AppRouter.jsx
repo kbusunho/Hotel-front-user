@@ -47,18 +47,29 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* main landing */}
+        {/* ✅ [수정됨] MainLayout 안에 고객센터 라우트를 포함시켰습니다. */}
         <Route path="/" element={<MainLayout />}>
-          {/* 검색 / 리스트 */}
+          {/* 메인 홈 */}
           <Route index element={<HomePage />} />
 
+          {/* 검색 / 리스트 */}
           <Route path="search" element={<SearchPage />} />
           <Route path="hotels">
             <Route index element={<HotelListPage />} />
             <Route path=":hotelId" element={<HotelDetailPage />} />
           </Route>
+
+          {/* ✅ 고객센터 (MainLayout 내부로 이동) */}
+          <Route path="support">
+            <Route index element={<FaqPage />} />
+            <Route path="faq" element={<FaqPage />} />
+            <Route path="notices" element={<NoticeListPage />} />
+            <Route path="notices/:noticeId" element={<NoticeDetailPage />} />
+            <Route path="contact" element={<ContactPage />} />
+          </Route>
         </Route>
-        {/* 예약 플로우 - 로그인 필요 */}
+
+        {/* 예약 플로우 - 로그인 필요 (헤더/푸터 없이 별도 레이아웃 사용) */}
         <Route
           path="booking/:hotelId"
           element={
@@ -67,28 +78,14 @@ const AppRouter = () => {
             </ProtectedRoute>
           }
         >
-          {/* /booking/:hotelId */}
           <Route index element={<BookingStepDates />} />
-          {/* /booking/:hotelId/room */}
           <Route path="room" element={<BookingStepRoom />} />
-          {/* /booking/:hotelId/extras */}
           <Route path="extras" element={<BookingStepExtras />} />
-          {/* /booking/:hotelId/payment */}
           <Route path="payment" element={<BookingStepPayment />} />
-          {/* /booking/:hotelId/complete */}
           <Route path="complete" element={<BookingComplete />} />
         </Route>
 
-        {/* 고객센터 / 공지 / FAQ / 문의 */}
-        <Route path="support">
-          <Route index element={<FaqPage />} />
-          <Route path="faq" element={<FaqPage />} />
-          <Route path="notices" element={<NoticeListPage />} />
-          <Route path="notices/:noticeId" element={<NoticeDetailPage />} />
-          <Route path="contact" element={<ContactPage />} />
-        </Route>
-
-        {/* 마이페이지 - 로그인 필요 */}
+        {/* 마이페이지 - 로그인 필요 (MyPageLayout 사용) */}
         <Route
           path="mypage"
           element={
@@ -97,15 +94,14 @@ const AppRouter = () => {
             </ProtectedRoute>
           }
         >
-          <Route index element={<MyAccountPage />} />
+          {/* ✅ 마이페이지 메인은 보통 Overview를 보여줍니다 (Account는 별도 탭) */}
+          <Route index element={<MyOverviewPage />} /> 
           <Route path="account" element={<MyAccountPage />} />
           <Route path="bookings">
             <Route index element={<MyBookingsPage />} />
             <Route path=":bookingId" element={<MyBookingDetailPage />} />
           </Route>
           <Route path="payment" element={<MyPaymentPage />} />
-
-          {/* 기존 라우트들 (필요시 제거 가능) */}
           <Route path="profile" element={<ProfilePage />} />
           <Route path="reviews" element={<MyReviewsPage />} />
           <Route path="wishlist" element={<WishlistPage />} />
@@ -119,9 +115,10 @@ const AppRouter = () => {
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
           <Route path="reset-password" element={<ResetPasswordPage />} />
+          {/* 결제 수단 추가도 로그인 필요하면 ProtectedRoute로 감싸는 게 좋습니다 */}
           <Route path="add-payment" element={<AddPaymentPage />} />
 
-          {/* 소셜 로그인 콜백 (카카오, 구글) */}
+          {/* 소셜 로그인 콜백 */}
           <Route path="oauth">
             <Route path="kakao/callback" element={<KakaoCallbackPage />} />
             <Route path="google/callback" element={<GoogleCallbackPage />} />
