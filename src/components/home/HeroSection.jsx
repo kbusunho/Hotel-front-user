@@ -1,9 +1,5 @@
-/* src/components/home/HeroSection.jsx */
 import React, { useState, useRef } from "react";
-import {
-  useNavigate,
-  createSearchParams,
-} from "react-router-dom"; /* ✅ createSearchParams 추가 */
+import { useNavigate, createSearchParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -25,6 +21,7 @@ import {
   faSignOutAlt,
   faPlus,
   faMinus,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../context/AuthContext";
 import LogoutModal from "../common/LogoutModal";
@@ -50,7 +47,12 @@ const HeroSection = ({ isCardVisible, onCardEnter, onCardLeave }) => {
   const [rooms, setRooms] = useState(1);
   const [guests, setGuests] = useState(2);
   const [showGuestPopup, setShowGuestPopup] = useState(false);
+  
+  /* 하단 Destination 상태 */
   const [destination, setDestination] = useState("");
+  
+  /* ✅ [추가] 상단 네모 박스 검색어 상태 */
+  const [keyword, setKeyword] = useState("");
 
   /* 핸들러들 */
   const handleLogoutConfirm = () => {
@@ -69,11 +71,11 @@ const HeroSection = ({ isCardVisible, onCardEnter, onCardLeave }) => {
     }
   };
 
-  /* ✅ [핵심] 검색 실행 함수: 입력값을 URL에 담아보냄 */
   const handleSearch = () => {
     navigate({
       pathname: "/search",
       search: createSearchParams({
+        keyword: keyword, // ✅ 상단 검색어 추가
         destination: destination,
         checkIn: checkInDate ? checkInDate.toISOString() : "",
         checkOut: checkOutDate ? checkOutDate.toISOString() : "",
@@ -83,14 +85,12 @@ const HeroSection = ({ isCardVisible, onCardEnter, onCardLeave }) => {
     });
   };
 
-  /* ✅ 엔터키 감지 핸들러 */
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
 
-  /* ✅ 체크인 날짜 변경 시 체크아웃 날짜 자동 조정 */
   const handleCheckInChange = (date) => {
     setCheckInDate(date);
     if (checkOutDate <= date) {
@@ -179,13 +179,30 @@ const HeroSection = ({ isCardVisible, onCardEnter, onCardLeave }) => {
 
       {/* 하단 검색창 */}
       <div className="search-bar-container">
-        <h3>Where are you staying?</h3>
+        {/* 상단: 제목 + 입력 박스 + 검색 버튼 */}
+        <div className="header-row">
+          <h3>Where are you staying?</h3>
+          
+          {/* ✅ [수정] div -> input으로 변경하여 입력 가능하게 함 */}
+          <input 
+            type="text"
+            className="long-outline-box" 
+            placeholder="Search..."
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+
+          <button className="btn-search" onClick={handleSearch}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+
         <div className="search-inputs">
           <div className="input-group">
             <label>Enter Destination</label>
             <div className="input-field">
               <FontAwesomeIcon icon={faBed} />
-              {/* ✅ 엔터키 이벤트 연결 */}
               <input
                 type="text"
                 placeholder="신라스테이 플러스, 서울"
@@ -201,7 +218,7 @@ const HeroSection = ({ isCardVisible, onCardEnter, onCardLeave }) => {
             <div className="input-field">
               <DatePicker
                 selected={checkInDate}
-                onChange={handleCheckInChange} /* ✅ 핸들러 교체 */
+                onChange={handleCheckInChange}
                 dateFormat="yyyy-MM-dd"
                 className="custom-datepicker"
                 selectsStart
@@ -222,7 +239,7 @@ const HeroSection = ({ isCardVisible, onCardEnter, onCardLeave }) => {
                 selectsEnd
                 startDate={checkInDate}
                 endDate={checkOutDate}
-                minDate={checkInDate} /* ✅ 체크인 이전 날짜 선택 불가 */
+                minDate={checkInDate}
               />
               <FontAwesomeIcon icon={faCalendarAlt} />
             </div>
