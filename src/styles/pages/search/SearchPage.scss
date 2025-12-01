@@ -7,12 +7,11 @@
     min-height: 100vh;
     background-color: #FAFAFA;
 
-    /* 헤더 높이만큼 여백 확보 (헤더가 absolute인 경우) */
+    /* 헤더 높이만큼 여백 확보 */
     padding-top: 10rem;
 
     /* 1. 검색창 영역 */
     .search-bar-wrapper {
-        /* ❌ 기존의 전체 흰색 배경 삭제 */
         background: transparent;
         box-shadow: none;
         padding: 0;
@@ -21,12 +20,10 @@
         display: flex;
         justify-content: center;
 
-        /* ✅ 검색창을 박스 형태로 만듦 */
+        /* 검색창 박스 */
         .search-container {
             width: 100%;
             max-width: 1680px;
-
-            /* 박스 스타일 */
             background: #fff;
             border-radius: 2rem;
             padding: 3rem 4rem;
@@ -44,6 +41,8 @@
 
             .input-group {
                 flex: 1;
+                position: relative;
+                /* 팝업 위치 기준점 */
 
                 label {
                     display: block;
@@ -61,7 +60,7 @@
                     border: 1px solid #ccc;
                     border-radius: 0.8rem;
                     background: #fff;
-                    /* 박스 안의 입력창 배경 */
+                    cursor: pointer;
 
                     svg {
                         color: #112211;
@@ -77,17 +76,19 @@
                         background: transparent;
                     }
 
-                    /* DatePicker 스타일 */
-                    .custom-datepicker {
-                        width: 100%;
-                        border: none;
-                        outline: none;
-                        cursor: pointer;
-                        background: transparent;
-                    }
-
+                    /* react-datepicker 인풋 스타일 */
                     .react-datepicker-wrapper {
                         width: 100%;
+
+                        .custom-datepicker {
+                            width: 100%;
+                            border: none;
+                            outline: none;
+                            cursor: pointer;
+                            background: transparent;
+                            font-size: 1.4rem;
+                            color: #112211;
+                        }
                     }
                 }
             }
@@ -118,7 +119,7 @@
         }
     }
 
-    /* 2. 검색 결과 리스트 (기존 유지) */
+    /* 2. 검색 결과 리스트 */
     .container {
         max-width: 1440px;
         margin: 0 auto;
@@ -129,5 +130,108 @@
             flex-direction: column;
             gap: 3rem;
         }
+    }
+
+    /* =========================================
+     ✅ 3. React Datepicker 커스텀 스타일
+     (.search-page 내부에서만 동작하도록 중첩)
+     ========================================= */
+
+    .react-datepicker {
+        font-family: inherit;
+        border-radius: 1.2rem !important;
+        border: none !important;
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+        font-size: 1.4rem !important;
+        overflow: hidden;
+        /* 헤더 둥근 모서리 적용 위해 */
+    }
+
+    /* 달력 헤더 (배경) */
+    .react-datepicker__header {
+        background-color: #8DD3BB !important;
+        /* 민트색 */
+        border-bottom: none !important;
+        border-radius: 0 !important;
+        /* 부모 overflow로 처리 */
+        padding: 1.5rem !important;
+    }
+
+    /* 현재 월 표시 */
+    .react-datepicker__current-month {
+        color: #112211 !important;
+        font-size: 1.6rem !important;
+        margin-bottom: 1rem;
+        font-weight: 800;
+    }
+
+    /* 날짜 숫자들 */
+    .react-datepicker__day {
+        width: 3rem !important;
+        height: 3rem !important;
+        line-height: 3rem !important;
+        margin: 0.3rem !important;
+        border-radius: 50% !important;
+        transition: 0.2s;
+        font-size: 1.3rem;
+
+        &:hover {
+            background-color: #CDECE1 !important;
+            color: #112211;
+        }
+    }
+
+    /* 선택된 날짜 */
+    .react-datepicker__day--selected {
+        background-color: #112211 !important;
+        color: #fff !important;
+        font-weight: 700;
+    }
+
+    /* 키보드 포커스 */
+    .react-datepicker__day--keyboard-selected {
+        background-color: #CDECE1 !important;
+        color: #112211 !important;
+    }
+
+    /* 이번 달 아닌 날짜 숨김 */
+    .react-datepicker__day--outside-month {
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    /* 화살표 버튼 위치 조정 */
+    .react-datepicker__navigation {
+        top: 1.5rem !important;
+    }
+
+    /* 요일 이름 컨테이너 */
+    .react-datepicker__day-names {
+        display: flex !important;
+        justify-content: center;
+        margin-top: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        padding-bottom: 0.5rem;
+    }
+
+    /* 요일 글씨 */
+    .react-datepicker__day-name {
+        color: #000000 !important;
+        font-weight: 700;
+        width: 3rem !important;
+        line-height: 1.5;
+        margin: 0 0.3rem !important;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    /* 일요일(첫번째)만 빨간색 포인트 */
+    .react-datepicker__day-name:first-child {
+        color: #FF6B6B !important;
+    }
+
+    /* 포퍼(팝업) 삼각형 제거 (깔끔하게) */
+    .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle {
+        display: none;
     }
 }

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-
-const BASE_URL = 'http://localhost:3000';
+// ▼▼▼ [수정됨] 도메인을 지우고 '/api'만 남겼습니다.
+// 이렇게 해야 Vite Proxy가 작동해서 친구 컴퓨터로 연결해줍니다.
+const BASE_URL = '/api';
 
 const api = axios.create({
     baseURL: BASE_URL,
