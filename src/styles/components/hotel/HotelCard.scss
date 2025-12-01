@@ -1,213 +1,283 @@
-@use "../../common/variables" as *;
+@use "sass:color";
+
+/* 변수 직접 정의 (variables 파일이 없을 경우 대비) */
+$mint-color: #8DD3BB;
+$black-color: #112211;
+$red-color: #FF8682;
+$gray-text: #112211;
 
 .hotel-card-horizontal {
     display: flex;
-    /* 좌우 배치 */
     background: #fff;
     border: 1px solid #EAEAEA;
     border-radius: 1.2rem;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-    height: 30rem;
-    /* 카드 전체 높이 고정 */
-    transition: transform 0.2s;
+    box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.05);
+    height: 28rem; /* 디자인과 유사한 고정 높이 */
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 3rem; /* 카드 간 간격 */
 
     &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.196);
+        transform: translateY(-0.4rem);
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
     }
 
-    /* 1. 왼쪽 이미지 (35% 정도 차지) */
+    /* 1. 왼쪽 이미지 영역 */
     .card-left {
-        flex: 0 0 40rem;
-        /* 너비 고정 (사진처럼 넓게) */
+        flex: 0 0 38%; /* 전체 너비의 38% 차지 */
         position: relative;
-        height: 100%;
-        /* 높이 꽉 채움 */
+        overflow: hidden;
 
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        /* 이미지 호버 효과 */
+        &:hover img {
+            transform: scale(1.05);
         }
 
         .no-image {
             width: 100%;
             height: 100%;
-            background: #ddd;
+            background: #f0f0f0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
+            color: #888;
+            font-size: 1.4rem;
         }
 
         .image-count {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: rgba(0, 0, 0, 0.3);
+            top: 1.6rem;
+            right: 1.6rem;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(4px);
             color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.8rem;
             font-size: 1.2rem;
+            font-weight: 600;
         }
     }
 
-    /* 2. 오른쪽 콘텐츠 (나머지 차지) */
+    /* 2. 오른쪽 컨텐츠 영역 */
     .card-right {
         flex: 1;
+        padding: 2.4rem;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        /* 내용을 위아래로 찢음 */
-        padding: 2.4rem;
+        justify-content: space-between; /* 상단 정보와 하단 버튼 분리 */
 
-        /* 상단 정보 */
+        /* 상단 행 (정보 + 가격) */
         .card-header-row {
             display: flex;
             justify-content: space-between;
-            /* 정보와 가격을 양옆으로 */
             gap: 2rem;
+            flex: 1; /* 남은 공간 차지 */
 
+            /* 좌측 정보 그룹 */
             .info-group {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 0.8rem;
+
                 .hotel-name {
-                    font-size: 2.2rem;
+                    font-size: 2rem;
                     font-weight: 700;
-                    color: #112211;
-                    margin-bottom: 1rem;
+                    color: $black-color;
+                    margin: 0;
+                    line-height: 1.2;
+                    /* 말줄임 처리 */
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
                 }
 
                 .location {
-                    font-size: 1.3rem;
-                    color: #112211;
-                    opacity: 0.7;
                     display: flex;
                     align-items: center;
-                    gap: 0.5rem;
-                    margin-bottom: 1.5rem;
+                    gap: 0.6rem;
+                    font-size: 1.2rem;
+                    color: $gray-text;
+                    opacity: 0.75;
+                    margin: 0;
+                    
+                    svg { color: $black-color; }
                 }
 
+                /* 별점 + 편의시설 */
                 .rating-section {
                     display: flex;
                     align-items: center;
-                    gap: 1.5rem;
-                    margin-bottom: 1.5rem;
+                    gap: 1.2rem;
+                    margin-top: 0.4rem;
 
                     .stars {
-                        color: #FF8682;
+                        color: $red-color;
                         font-size: 1.2rem;
+                        display: flex;
+                        gap: 2px;
                     }
 
-                    font-size: 1.2rem;
-                    color: #112211;
-                    font-weight: 600;
+                    .star-text {
+                        font-size: 1.2rem;
+                        color: $black-color;
+                    }
+
+                    .amenity {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        font-size: 1.2rem;
+                        color: $black-color;
+                        font-weight: 600;
+
+                        svg { font-size: 1.4rem; }
+                    }
                 }
 
+                /* 리뷰 점수 박스 */
                 .review-score-box {
                     display: flex;
                     align-items: center;
-                    gap: 0.8rem;
+                    gap: 1rem;
+                    margin-top: 0.8rem;
 
-                    .score {
-                        border: 1px solid #8DD3BB;
-                        padding: 0.4rem 0.8rem;
-                        border-radius: 0.4rem;
+                    .score-badge {
+                        width: 4rem;
+                        height: 3.2rem;
+                        border: 1px solid $mint-color;
+                        border-radius: 0.8rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                         font-weight: 700;
-                        color: #112211;
+                        font-size: 1.3rem;
+                        color: $black-color;
                     }
 
-                    .text {
-                        font-weight: 700;
-                        color: #112211;
-                        font-size: 1.2rem;
-                    }
+                    .review-text {
+                        display: flex;
+                        flex-direction: column;
+                        line-height: 1.2;
+                        font-size: 1.1rem;
 
-                    .count {
-                        font-size: 1.2rem;
-                        opacity: 0.7;
+                        strong {
+                            font-weight: 700;
+                            color: $black-color;
+                        }
+                        
+                        .count {
+                            opacity: 0.7;
+                        }
                     }
                 }
             }
 
+            /* 우측 가격 그룹 */
             .price-group {
                 text-align: right;
-                min-width: 12rem;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                min-width: 10rem;
 
                 .label {
-                    display: block;
                     font-size: 1.2rem;
+                    color: $gray-text;
                     opacity: 0.7;
+                    margin-bottom: 0.4rem;
                 }
 
                 .price {
-                    display: block;
-                    font-size: 2.6rem;
+                    display: flex;
+                    align-items: flex-end; /* 텍스트 베이스라인 정렬 */
+                    gap: 0.2rem;
+                    color: $red-color;
                     font-weight: 700;
-                    color: #FF8682;
+                    line-height: 1;
 
-                    small {
-                        font-size: 1.4rem;
-                        color: #FF8682;
-                        font-weight: 400;
-                        opacity: 0.7;
+                    .currency { font-size: 1.6rem; margin-bottom: 0.3rem; }
+                    .amount { font-size: 2.8rem; }
+                    .unit { 
+                        font-size: 1.4rem; 
+                        color: $red-color; 
+                        margin-bottom: 0.3rem; 
+                        font-weight: 700;
                     }
                 }
 
                 .tax {
                     font-size: 1.2rem;
+                    color: $gray-text;
                     opacity: 0.7;
+                    margin-top: 0.6rem;
                 }
             }
         }
 
-        /* 하단 버튼 */
+        /* 하단 행 (구분선 + 버튼) */
         .card-bottom-row {
+            margin-top: 1.5rem;
+
             .divider {
                 width: 100%;
                 height: 1px;
                 background-color: #EAEAEA;
-                margin-bottom: 2rem;
+                margin-bottom: 1.6rem;
             }
 
-            .buttons {
+            .buttons-wrapper {
                 display: flex;
                 gap: 1.5rem;
+                justify-content: flex-end; /* 버튼 오른쪽 정렬 (디자인 유지) */
 
                 .btn-heart {
                     width: 4.8rem;
                     height: 4.8rem;
-                    border: 1px solid #8DD3BB;
+                    border: 1px solid $mint-color;
+                    border-radius: 0.8rem;
                     background: #fff;
-                    border-radius: 0.4rem;
-                    color: #112211;
+                    color: $black-color;
+                    font-size: 1.6rem; /* 아이콘 크기 적절하게 조정 */
                     cursor: pointer;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-
-                    svg {
-                        font-size: 33px;
-                
-                    }
+                    transition: all 0.2s;
 
                     &:hover {
-                        background: #f0fdf4;
+                        background: #f5fbf9;
+                    }
+
+                    /* 활성화(클릭) 상태 스타일 */
+                    &.active {
+                        background: $mint-color;
+                        color: $black-color;
                     }
                 }
 
                 .btn-view {
-                    flex: 1;
+                    flex: 1; /* 남은 공간 꽉 채우기 */
                     height: 4.8rem;
-                    background: #8DD3BB;
+                    background: $mint-color;
+                    color: $black-color;
                     border: none;
-                    border-radius: 0.4rem;
-                    color: #112211;
-                    font-weight: 600;
+                    border-radius: 0.8rem;
                     font-size: 1.4rem;
+                    font-weight: 600;
                     cursor: pointer;
+                    transition: background 0.2s;
 
                     &:hover {
-                        background: darken(#8DD3BB, 5%);
+                        background: color.adjust($mint-color, $lightness: -8%);
                     }
                 }
             }

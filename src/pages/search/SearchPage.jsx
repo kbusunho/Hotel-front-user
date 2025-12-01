@@ -13,12 +13,14 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/pages/search/SearchPage.scss";
+
+// ✅ 컴포넌트 임포트 확인
 import HotelCard from "../../components/hotel/HotelCard";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
 
-  /* 초기값 가져오기 */
+  /* 초기값 설정 */
   const initialDest = searchParams.get("destination") || "";
   const initialCheckIn = searchParams.get("checkIn")
     ? new Date(searchParams.get("checkIn"))
@@ -26,20 +28,17 @@ const SearchPage = () => {
   const initialCheckOut = searchParams.get("checkOut")
     ? new Date(searchParams.get("checkOut"))
     : new Date();
-  /* ✅ [추가] URL에서 인원/객실 수 가져오기 (없으면 기본값 1, 2) */
   const initialRooms = Number(searchParams.get("rooms")) || 1;
   const initialGuests = Number(searchParams.get("guests")) || 2;
 
   const [destination, setDestination] = useState(initialDest);
   const [checkInDate, setCheckInDate] = useState(initialCheckIn);
   const [checkOutDate, setCheckOutDate] = useState(initialCheckOut);
-
-  /* ✅ [추가] 인원/객실 상태 및 팝업 상태 */
   const [rooms, setRooms] = useState(initialRooms);
   const [guests, setGuests] = useState(initialGuests);
   const [showGuestPopup, setShowGuestPopup] = useState(false);
 
-  /* ✅ [추가] 카운터 핸들러 */
+  /* 카운터 핸들러 */
   const handleCounter = (type, operation) => {
     if (type === "rooms") {
       if (operation === "inc") setRooms((prev) => prev + 1);
@@ -50,7 +49,7 @@ const SearchPage = () => {
     }
   };
 
-  // 더미 데이터
+  /* 더미 데이터 */
   const searchResults = [
     {
       id: 1,
@@ -81,8 +80,22 @@ const SearchPage = () => {
     },
   ];
 
+  const btnStyle = {
+    width: "3.2rem",
+    height: "3.2rem",
+    borderRadius: "0.8rem",
+    border: "none",
+    backgroundColor: "#8DD3BB",
+    color: "#112211",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+  };
+
   return (
     <div className="search-page">
+      {/* 1. 상단 검색바 영역 (기존 코드 유지) */}
       <div className="search-bar-wrapper">
         <div className="search-container">
           {/* Destination */}
@@ -128,7 +141,7 @@ const SearchPage = () => {
             </div>
           </div>
 
-          {/* ✅ [수정] Rooms & Guests (팝업 적용) */}
+          {/* Rooms & Guests */}
           <div className="input-group" style={{ position: "relative" }}>
             <label>Rooms & Guests</label>
             <div
@@ -159,7 +172,7 @@ const SearchPage = () => {
               />
             </div>
 
-            {/* 팝업 내용 */}
+            {/* 인원수 팝업 */}
             {showGuestPopup && (
               <div
                 className="guest-popup"
@@ -177,7 +190,7 @@ const SearchPage = () => {
                   border: "1px solid rgba(0,0,0,0.05)",
                 }}
               >
-                {/* 방 개수 */}
+                {/* Rooms Counter */}
                 <div
                   className="counter-row"
                   style={{
@@ -207,15 +220,7 @@ const SearchPage = () => {
                     >
                       <FontAwesomeIcon icon={faMinus} />
                     </button>
-                    <span
-                      className="count"
-                      style={{
-                        fontSize: "1.6rem",
-                        fontWeight: 700,
-                        width: "1.5rem",
-                        textAlign: "center",
-                      }}
-                    >
+                    <span style={{ fontSize: "1.6rem", fontWeight: 700 }}>
                       {rooms}
                     </span>
                     <button
@@ -228,7 +233,6 @@ const SearchPage = () => {
                 </div>
 
                 <div
-                  className="divider"
                   style={{
                     height: "1px",
                     background: "#eee",
@@ -236,7 +240,7 @@ const SearchPage = () => {
                   }}
                 ></div>
 
-                {/* 인원 수 */}
+                {/* Guests Counter */}
                 <div
                   className="counter-row"
                   style={{
@@ -266,15 +270,7 @@ const SearchPage = () => {
                     >
                       <FontAwesomeIcon icon={faMinus} />
                     </button>
-                    <span
-                      className="count"
-                      style={{
-                        fontSize: "1.6rem",
-                        fontWeight: 700,
-                        width: "1.5rem",
-                        textAlign: "center",
-                      }}
-                    >
+                    <span style={{ fontSize: "1.6rem", fontWeight: 700 }}>
                       {guests}
                     </span>
                     <button
@@ -289,36 +285,39 @@ const SearchPage = () => {
             )}
           </div>
 
-          {/* 검색 버튼 */}
           <button className="btn-search">
             <FontAwesomeIcon icon={faSearch} />
           </button>
         </div>
       </div>
 
+      {/* ✅ 2. 메인 컨텐츠 영역 (레이아웃 변경됨) */}
       <div className="container">
-        <div className="results-list">
-          {searchResults.map((hotel) => (
-            <HotelCard key={hotel.id} hotel={hotel} />
-          ))}
+        {/* 사이드바와 리스트를 감싸는 Flex 컨테이너 */}
+        <div className="search-content-layout">
+          
+          {/* 왼쪽: 필터 사이드바 */}
+          <div className="layout-sidebar">
+            <FilterSidebar />
+          </div>
+
+          {/* 오른쪽: 호텔 리스트 */}
+          <div className="layout-results">
+            <div className="results-header">
+               <h3>Showing 4 of <span style={{color: '#FF8682'}}>257 places</span></h3>
+            </div>
+            
+            <div className="results-list">
+              {searchResults.map((hotel) => (
+                <HotelCard key={hotel.id} hotel={hotel} />
+              ))}
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>
   );
-};
-
-/* ✅ [스타일] 버튼 스타일 객체 (SCSS 파일 없이 인라인으로 빠르게 적용) */
-const btnStyle = {
-  width: "3.2rem",
-  height: "3.2rem",
-  borderRadius: "0.8rem",
-  border: "none",
-  backgroundColor: "#8DD3BB",
-  color: "#112211",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  cursor: "pointer",
 };
 
 export default SearchPage;
