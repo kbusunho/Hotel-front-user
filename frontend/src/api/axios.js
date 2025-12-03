@@ -1,17 +1,24 @@
 import axios from 'axios';
 
-// ▼▼▼ [수정됨] 도메인을 지우고 '/api'만 남겼습니다.
-// 이렇게 해야 Vite Proxy가 작동해서 친구 컴퓨터로 연결해줍니다.
-const BASE_URL = '/api';
+// 환경변수(VITE_API_URL or VITE_API_BASE_URL)를 우선 사용하고,
+// 값이 http://localhost:3000 처럼 /api 없이 들어오면 자동으로 /api를 붙입니다.
+const resolveBaseUrl = () => {
+    const envUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL;
+    if (!envUrl) return '/api';
+    const trimmed = envUrl.replace(/\/$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+};
+
+const BASE_URL = resolveBaseUrl();
 
 const api = axios.create({
     baseURL: BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+    timeout: 10000,
 });
 
-// ✅ 요청 보낼 때마다 토큰이 있다면 자동으로 헤더에 끼워넣기
+// 요청마다 토큰 자동 첨부
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('accessToken');
     if (token) {

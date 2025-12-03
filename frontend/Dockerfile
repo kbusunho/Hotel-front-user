@@ -1,20 +1,17 @@
-# Build stage
-FROM node:20-alpine AS builder
+# Use official Nginx image
+FROM nginx:1.25-alpine
 
-WORKDIR /app
+# Remove default config
+RUN rm /etc/nginx/conf.d/default.conf
 
-COPY package*.json ./
-RUN npm ci
-
-COPY . .
-RUN npm run build
-
-# Production stage
-FROM nginx:alpine
-
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy your custom config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copy static files (ex: Vite build output)
+# Make sure you already ran: npm run build → dist/
+COPY dist/ /usr/share/nginx/html
+
+# Expose port
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]

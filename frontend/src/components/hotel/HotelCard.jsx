@@ -1,17 +1,24 @@
 import React, { useState } from "react";
+/* ✅ [추가] 페이지 이동을 위한 useNavigate */
+import { useNavigate } from "react-router-dom"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
   faStar,
   faHeart,
-  faMugHot, // 커피잔 아이콘 변경 (더 직관적)
+  faMugHot, 
 } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/components/hotel/HotelCard.scss";
 
 const HotelCard = ({ hotel }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const navigate = useNavigate(); /* ✅ 네비게이트 훅 사용 */
 
-  // 별점 렌더링 함수
+  /* ✅ 상세 페이지 이동 함수 */
+  const goToDetail = () => {
+    navigate(`/hotels/${hotel.id}`); 
+  };
+
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -28,8 +35,8 @@ const HotelCard = ({ hotel }) => {
 
   return (
     <div className="hotel-card-horizontal">
-      {/* 1. 왼쪽 이미지 영역 */}
-      <div className="card-left">
+      {/* 1. 왼쪽 이미지 영역 (클릭 시 이동) */}
+      <div className="card-left" onClick={goToDetail} style={{ cursor: 'pointer' }}>
         {hotel.image ? (
           <img src={hotel.image} alt={hotel.name} />
         ) : (
@@ -40,11 +47,12 @@ const HotelCard = ({ hotel }) => {
 
       {/* 2. 오른쪽 컨텐츠 영역 */}
       <div className="card-right">
-        {/* 상단: 정보 + 가격 */}
         <div className="card-header-row">
-          {/* 호텔 정보 */}
           <div className="info-group">
-            <h3 className="hotel-name">{hotel.name}</h3>
+            {/* ✅ 호텔 이름 클릭 시 이동 */}
+            <h3 className="hotel-name" onClick={goToDetail} style={{ cursor: 'pointer' }}>
+              {hotel.name}
+            </h3>
             
             <p className="location">
               <FontAwesomeIcon icon={faMapMarkerAlt} />
@@ -69,7 +77,6 @@ const HotelCard = ({ hotel }) => {
             </div>
           </div>
 
-          {/* 가격 정보 (우측 정렬) */}
           <div className="price-group">
             <span className="label">starting from</span>
             <div className="price">
@@ -81,17 +88,23 @@ const HotelCard = ({ hotel }) => {
           </div>
         </div>
 
-        {/* 하단: 구분선 + 버튼 */}
         <div className="card-bottom-row">
           <div className="divider"></div>
           <div className="buttons-wrapper">
             <button
               className={`btn-heart ${isFavorite ? "active" : ""}`}
-              onClick={() => setIsFavorite(!isFavorite)}
+              onClick={(e) => {
+                e.stopPropagation(); // 부모 클릭 방지 (이미지 클릭과 분리)
+                setIsFavorite(!isFavorite);
+              }}
             >
               <FontAwesomeIcon icon={faHeart} />
             </button>
-            <button className="btn-view">View Place</button>
+            
+            {/* ✅ View Place 버튼 클릭 시 이동 */}
+            <button className="btn-view" onClick={goToDetail}>
+              View Place
+            </button>
           </div>
         </div>
       </div>
