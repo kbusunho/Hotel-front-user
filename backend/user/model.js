@@ -19,9 +19,9 @@ const userSchema = new mongoose.Schema(
     address: { type: String },
     dateOfBirth: { type: Date },
     avatarUrl: { type: String },
-  coverUrl: { type: String },
-  loginAttempts: { type: Number, default: 0 },
-  lockUntil: { type: Date },
+    coverUrl: { type: String },
+    loginAttempts: { type: Number, default: 0 },
+    lockUntil: { type: Date },
   },
   {
     timestamps: true,

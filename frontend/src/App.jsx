@@ -4,13 +4,23 @@ import { WishlistProvider } from "./context/WishlistContext";
 import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
-  return (
-    <AuthProvider>
-      <WishlistProvider>
-        <AppRouter />
-      </WishlistProvider>
-    </AuthProvider>
-  );
+  // 백엔드 연결 테스트
+  fetch("/api/hotels")
+    .then((res) => res.json())
+    .then((data) => console.log("✅ GET /api/hotels:", data))
+    .catch((err) => console.error("❌ GET /api/hotels error:", err));
+
+  fetch("/api/rooms")
+    .then((res) => res.json())
+    .then((data) => console.log("✅ GET /api/rooms:", data))
+    .catch((err) => console.error("❌ GET /api/rooms error:", err));
+
+  //fetch("/api/reviews")
+    //.then((res) => res.json())
+    //.then((data) => console.log("✅ GET /api/reviews:", data))
+    //.catch((err) => console.error("❌ GET /api/reviews error:", err));
+
+  return <AppRouter />;
 };
 
 export default App;
