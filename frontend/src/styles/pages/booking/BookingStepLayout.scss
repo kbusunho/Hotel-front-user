@@ -1,0 +1,486 @@
+// 변수 설정 (이미지의 색상 추출)
+$color-mint: #8dd3bb;
+$color-mint-light: #e7f6f2; // 아주 연한 배경용
+$color-black: #112211;
+$color-gray: #79747e; // 텍스트 회색
+$color-red: #ff8682; // 가격 등 강조색
+$border-color: #eaeaea;
+$border-radius: 12px;
+
+.booking-step-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: $color-black;
+
+    // 1. Breadcrumb
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 30px;
+        font-size: 14px;
+
+        .location {
+            color: $color-red;
+        }
+
+        .current {
+            color: $color-gray;
+        }
+
+        svg {
+            color: $color-gray;
+        }
+    }
+
+    // 2. Main Layout (Left + Right)
+    .content-container {
+        display: flex;
+        gap: 40px;
+
+        @media (max-width: 900px) {
+            flex-direction: column;
+        }
+
+        // --- Left Column ---
+        .main-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+
+            .section-card {
+                background: white;
+                border: 1px solid $border-color;
+                border-radius: $border-radius;
+                padding: 24px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+
+                &.active {
+                    background-color: $color-mint; // 선택되었을 때 배경색
+                    border-color: $color-mint;
+                }
+            }
+
+            // Room Info
+            .room-info {
+                .header-row {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 24px;
+
+                    h2 {
+                        font-size: 20px;
+                        font-weight: 700;
+                        margin: 0;
+                    }
+
+                    .price {
+                        color: $color-red;
+                        font-weight: 700;
+                        font-size: 18px;
+                    }
+                }
+
+                .hotel-address-box {
+                    display: flex;
+                    gap: 16px;
+                    border: 1px solid $border-color;
+                    border-radius: 8px;
+                    padding: 16px;
+                    margin-bottom: 30px;
+
+                    .logo-placeholder {
+                        width: 48px;
+                        height: 48px;
+                        background: #eee;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 10px;
+                    }
+
+                    .text-info {
+                        strong {
+                            display: block;
+                            margin-bottom: 4px;
+                        }
+
+                        p {
+                            font-size: 13px;
+                            color: $color-gray;
+                            margin: 0;
+                        }
+                    }
+                }
+
+                .check-in-out-timeline {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .date-group {
+                        display: flex;
+                        flex-direction: column;
+
+                        &.right {
+                            text-align: right;
+                        }
+
+                        .date {
+                            font-weight: 700;
+                            font-size: 18px;
+                            margin-bottom: 4px;
+                        }
+
+                        .label {
+                            font-size: 14px;
+                            color: $color-gray;
+                        }
+                    }
+
+                    .timeline-graphic {
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 0 20px;
+                        color: $color-black;
+
+                        .line {
+                            flex: 1;
+                            height: 1px;
+                            background-color: #ddd;
+                        }
+
+                        .icon {
+                            margin: 0 10px;
+                        }
+                    }
+                }
+            }
+
+            // Selection Cards (Payment Type)
+            .selection-card {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+                transition: background-color 0.2s;
+
+                h3 {
+                    font-size: 16px;
+                    font-weight: 700;
+                    margin: 0 0 4px 0;
+                }
+
+                p {
+                    font-size: 14px;
+                    margin: 0;
+                    opacity: 0.8;
+                }
+
+                .radio-circle {
+                    width: 20px;
+                    height: 20px;
+                    border: 2px solid $color-black; // 기본은 검은 테두리
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: white; // 내부는 흰색
+
+                    .inner-dot {
+                        width: 10px;
+                        height: 10px;
+                        background-color: $color-black;
+                        border-radius: 50%;
+                    }
+                }
+
+                // 선택되지 않았을 때의 스타일
+                &:not(.active) {
+                    .text-group {
+                        p {
+                            color: $color-gray;
+                        }
+                    }
+
+                    .radio-circle {
+                        border-color: $color-gray;
+                    }
+                }
+
+                // 선택되었을 때 텍스트 색상 유지/변경 가능
+                &.active {
+                    .radio-circle {
+                        border-color: $color-black;
+                    }
+                }
+            }
+
+            // Payment Method
+            .payment-method {
+                background-color: $color-mint !important; // 강제 민트색
+
+                .card-row {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .card-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+
+                        .card-brand {
+                            background: #1a1f71;
+                            color: white;
+                            font-weight: bold;
+                            padding: 4px 8px;
+                            border-radius: 4px;
+                            font-size: 12px;
+                        }
+
+                        .card-number {
+                            font-weight: 600;
+                        }
+
+                        .card-expiry {
+                            font-size: 14px;
+                            color: #444;
+                        }
+                    }
+
+                    .radio-circle {
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        background: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        .inner-dot {
+                            width: 10px;
+                            height: 10px;
+                            background: $color-black;
+                            border-radius: 50%;
+                        }
+                    }
+                }
+            }
+
+            .add-new-card {
+                border: 2px dashed $color-mint;
+                border-radius: $border-radius;
+                padding: 30px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                gap: 10px;
+                color: $color-gray;
+
+                .plus-circle {
+                    width: 40px;
+                    height: 40px;
+                    border: 1px solid $color-mint;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: $color-mint;
+                }
+
+                &:hover {
+                    background-color: #f9f9f9;
+                }
+            }
+        }
+
+        // --- Right Column (Sidebar) ---
+        .sidebar-column {
+            width: 380px;
+
+            @media (max-width: 900px) {
+                width: 100%;
+            }
+
+            .summary-card {
+                background: white;
+                border: 1px solid $border-color;
+                border-radius: $border-radius;
+                padding: 24px;
+
+                .hotel-summary {
+                    display: flex;
+                    gap: 16px;
+                    margin-bottom: 20px;
+
+                    .thumbnail {
+                        width: 80px;
+                        height: 80px;
+                        background: #ddd;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        flex-shrink: 0;
+
+                        .img-placeholder {
+                            width: 100%;
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 10px;
+                        }
+                    }
+
+                    .info {
+                        .sub-text {
+                            font-size: 12px;
+                            color: $color-gray;
+                            margin-bottom: 4px;
+                        }
+
+                        h3 {
+                            font-size: 14px;
+                            font-weight: 700;
+                            margin: 0 0 8px 0;
+                            line-height: 1.4;
+                        }
+
+                        .rating {
+                            font-size: 12px;
+                            display: flex;
+                            align-items: center;
+                            gap: 6px;
+
+                            .badge {
+                                border: 1px solid $color-mint;
+                                padding: 2px 6px;
+                                border-radius: 4px;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+
+                .divider {
+                    height: 1px;
+                    background: $border-color;
+                    margin: 16px 0;
+                }
+
+                .protection-text {
+                    font-size: 13px;
+                    margin: 0;
+
+                    strong {
+                        font-weight: 800;
+                    }
+                }
+
+                .price-details {
+                    h4 {
+                        margin: 0 0 12px 0;
+                        font-size: 14px;
+                        color: $color-black;
+                    }
+
+                    .row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 8px;
+                        font-size: 14px;
+
+                        span {
+                            color: $color-gray;
+                        }
+
+                        strong {
+                            color: $color-black;
+                        }
+                    }
+                }
+
+                .total-row {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    // 3. Newsletter Section
+    .newsletter-section {
+        margin-top: 60px;
+        background-color: #cdeae1; // 민트보다 살짝 탁한 배경색 (이미지 참고)
+        border-radius: 20px;
+        padding: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        position: relative;
+        overflow: hidden;
+
+        .newsletter-content {
+            z-index: 2;
+            max-width: 50%;
+
+            h2 {
+                font-size: 32px;
+                font-weight: 700;
+                margin-bottom: 8px;
+                line-height: 1.2;
+            }
+
+            .sub-title {
+                font-weight: 600;
+                opacity: 0.7;
+                margin-bottom: 4px;
+            }
+
+            .description {
+                margin-bottom: 24px;
+                color: #444;
+            }
+
+            .input-group {
+                display: flex;
+                gap: 12px;
+
+                input {
+                    padding: 12px 16px;
+                    border: none;
+                    border-radius: 4px;
+                    width: 250px;
+                    outline: none;
+                }
+
+                button {
+                    background-color: $color-black;
+                    color: white;
+                    padding: 12px 24px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .newsletter-illustration {
+            // 실제 이미지나 SVG를 배치할 영역
+            font-size: 100px;
+            line-height: 0.8;
+            opacity: 0.8;
+        }
+    }
+}

@@ -13,7 +13,7 @@ export default defineConfig({
     
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'http://backend:3000', // 도커 내부는 backend, 로컬은 환경변수/기본값 사용
+        target: process.env.VITE_API_URL || 'http://172.22.48.1:3000', // 도커 내부는 backend, 로컬은 환경변수/기본값 사용
         changeOrigin: true,
         secure: false,
       },
