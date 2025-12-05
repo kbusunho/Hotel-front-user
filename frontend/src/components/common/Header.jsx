@@ -27,40 +27,54 @@ const Header = ({ onMouseEnter, onMouseLeave }) => {
     navigate("/");
   };
 
-  /* 현재 페이지 확인 */
-  const isWishlistPage = location.pathname === "/wishlist";
-  const isSearchPage = location.pathname === "/search";
+  /* ✅ [수정] 중앙 로고 헤더를 보여줄 페이지 조건 추가 */
+  const showGolobeHeader =
+    location.pathname === "/wishlist" ||
+    location.pathname.startsWith("/booking") ||
+    location.pathname.startsWith("/hotels");
+
+  /* ✅ [수정] 각 메뉴 활성화 상태 확인 */
+  const isWishlistActive = location.pathname === "/wishlist";
+  const isFindStaysActive =
+    location.pathname.startsWith("/hotels") ||
+    location.pathname.startsWith("/booking");
 
   return (
     <>
-      {/* 찜하기 페이지일 때 'wishlist-header' 클래스 추가 */}
-      <header className={`header ${isWishlistPage ? "wishlist-header" : ""}`}>
+      <header className={`header ${showGolobeHeader ? "wishlist-header" : ""}`}>
         <div className="inner">
-          {isWishlistPage ? (
-            /* ==============================
-               CASE 1: 찜하기 페이지용 헤더
-               ============================== */
+          {showGolobeHeader ? (
+            /* CASE 1: 중앙 로고 헤더 (찜하기, 예약, 상세 페이지 등) */
             <>
               <div className="header-left wishlist-mode">
-                <Link to="/" className="logo-link">
-                  <FontAwesomeIcon icon={faHotel} />
-                  <span>Hotels</span>
+                <Link to="/flights" className="nav-item">
+                  <FontAwesomeIcon icon={faPlane} /> Find Flight
+                </Link>
+                {/* ✅ Find Stays에 active 클래스 적용 */}
+                <Link
+                  to="/hotels"
+                  className={`nav-item ${isFindStaysActive ? "active" : ""}`}
+                >
+                  <FontAwesomeIcon icon={faBed} /> Find Stays
                 </Link>
               </div>
 
-              <div className="header-center"></div>
+              <div className="header-center">
+                <Link to="/" className="logo">
+                  {/* 로고 이미지 (없으면 텍스트) */}
+                  {/* <img src="/images/logo-icon.png" alt="golobe" className="logo-icon" /> */}
+                  <span className="logo-text">golobe</span>
+                </Link>
+              </div>
 
               <div className="header-right wishlist-mode">
-                {/* 찜하기 버튼 (활성화 표시) */}
-                <Link to="/wishlist" className="nav-item active wishlist-badge-wrapper">
-                  <FontAwesomeIcon icon={faHeart} />
-                  <span>찜하기</span>
-                  {wishlistCount > 0 && <span className="badge">{wishlistCount}</span>}
-                </Link>
-
-                <Link to="/hotels" className="nav-item">
-                  <FontAwesomeIcon icon={faBed} />
-                  <span>Find Stays</span>
+                {/* 찜하기 버튼 active 적용 */}
+                <Link
+                  to="/wishlist"
+                  className={`menu-text ${isWishlistActive ? "active" : ""}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <FontAwesomeIcon icon={faHeart} /> Favourites
                 </Link>
                 <span className="divider">|</span>
 
@@ -106,7 +120,7 @@ const Header = ({ onMouseEnter, onMouseLeave }) => {
                   </>
                 ) : (
                   <button
-                    className="btn-login"
+                    className="btn-logout"
                     onClick={() => navigate("/login")}
                   >
                     로그인
@@ -115,33 +129,21 @@ const Header = ({ onMouseEnter, onMouseLeave }) => {
               </div>
             </>
           ) : (
-            /* ==============================
-               CASE 2: 일반 페이지용 헤더
-               ============================== */
+            /* CASE 2: 일반 헤더 (메인 등) */
             <>
               <div className="header-left">
                 <Link to="/" className="logo">
-                  <FontAwesomeIcon icon={faHotel} />
-                  <span>Hotels</span>
+                  <FontAwesomeIcon icon={faHotel} /> <span>Hotels</span>
                 </Link>
               </div>
 
               <div className="header-center"></div>
 
               <div className="header-right">
-                <Link to="/wishlist" className="nav-item wishlist-btn wishlist-badge-wrapper">
-                  <FontAwesomeIcon icon={faHeart} />
-                  <span>찜하기</span>
-                  {wishlistCount > 0 && <span className="badge">{wishlistCount}</span>}
+                <Link to="/wishlist" className="menu-item">
+                  <FontAwesomeIcon icon={faHeart} /> <span>찜하기</span>
                 </Link>
-
-                <Link to="/hotels" className="nav-item">
-                  <FontAwesomeIcon icon={faBed} />
-                  <span>Find Stays</span>
-                </Link>
-
                 <div className="separator">|</div>
-
                 {isAuthenticated ? (
                   <>
                     <div
@@ -184,7 +186,7 @@ const Header = ({ onMouseEnter, onMouseLeave }) => {
                   </>
                 ) : (
                   <button
-                    className="btn-login"
+                    className="btn-logout"
                     onClick={() => navigate("/login")}
                   >
                     로그인
@@ -195,7 +197,6 @@ const Header = ({ onMouseEnter, onMouseLeave }) => {
           )}
         </div>
       </header>
-
       <LogoutModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}

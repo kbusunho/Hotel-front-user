@@ -1,4 +1,4 @@
-/* 1. src/AppRouter.jsx */
+/* src/AppRouter.jsx */
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./components/layouts/MainLayout";
 import AuthLayout from "./components/layouts/AuthLayout";
@@ -64,7 +64,7 @@ const AppRouter = () => {
             <Route path=":hotelId" element={<HotelDetailPage />} />
           </Route>
 
-          {/* ✅ [수정] 찜하기 페이지를 여기(로그인 불필요 구역)로 이동 */}
+          {/* 찜하기 페이지 */}
           <Route path="wishlist" element={<WishlistPage />} />
 
           {/* ✅ [추가] Flight 페이지 */}
@@ -78,25 +78,25 @@ const AppRouter = () => {
             <Route path="notices/:noticeId" element={<NoticeDetailPage />} />
             <Route path="contact" element={<ContactPage />} />
           </Route>
+
+          {/* ✅ [이동됨] 예약 플로우 - 이제 MainLayout 안에 있어서 헤더/푸터가 보입니다 */}
+          <Route
+            path="booking/:hotelId"
+            element={
+              <ProtectedRoute>
+                <BookingStepLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<BookingStepDates />} />
+            <Route path="room" element={<BookingStepRoom />} />
+            <Route path="extras" element={<BookingStepExtras />} />
+            <Route path="payment" element={<BookingStepPayment />} />
+            <Route path="complete" element={<BookingComplete />} />
+          </Route>
         </Route>
 
-        {/* 예약 플로우 - 로그인 필요 */}
-        <Route
-          path="booking/:hotelId"
-          element={
-            <ProtectedRoute>
-              <BookingStepLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<BookingStepDates />} />
-          <Route path="room" element={<BookingStepRoom />} />
-          <Route path="extras" element={<BookingStepExtras />} />
-          <Route path="payment" element={<BookingStepPayment />} />
-          <Route path="complete" element={<BookingComplete />} />
-        </Route>
-
-        {/* 마이페이지 - 로그인 필요 */}
+        {/* 마이페이지 - 로그인 필요 (별도 레이아웃 사용) */}
         <Route
           path="mypage"
           element={
@@ -105,7 +105,7 @@ const AppRouter = () => {
             </ProtectedRoute>
           }
         >
-          <Route index element={<MyOverviewPage />} />
+          <Route index element={<MyOverviewPage />} /> 
           <Route path="account" element={<MyAccountPage />} />
           <Route path="bookings">
             <Route index element={<MyBookingsPage />} />
@@ -114,7 +114,6 @@ const AppRouter = () => {
           <Route path="payment" element={<MyPaymentPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="reviews" element={<MyReviewsPage />} />
-          {/* wishlist 라우트는 위쪽 public 영역으로 이동했으므로 여기서 제거 */}
           <Route path="coupons" element={<MyCouponsPage />} />
           <Route path="points" element={<MyPointsPage />} />
           <Route path="inquiries" element={<MyInquiriesPage />} />

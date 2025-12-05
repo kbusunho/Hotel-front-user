@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { userConnection } from "../config/db.js";
+import { dbConnection } from "../config/db.js";
 import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
@@ -19,9 +19,9 @@ const userSchema = new mongoose.Schema(
     address: { type: String },
     dateOfBirth: { type: Date },
     avatarUrl: { type: String },
-    coverUrl: { type: String },
-    loginAttempts: { type: Number, default: 0 },
-    lockUntil: { type: Date },
+  coverUrl: { type: String },
+  loginAttempts: { type: Number, default: 0 },
+  lockUntil: { type: Date },
   },
   {
     timestamps: true,
@@ -58,5 +58,5 @@ userSchema.set("toJSON", {
   },
 });
 
-export const User = userConnection.model("User", userSchema);
+export const User = dbConnection.model("User", userSchema);
 export default User;

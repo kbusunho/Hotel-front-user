@@ -5,22 +5,14 @@ import PopularDestinations from "../../components/home/PopularDestinations";
 import "../../styles/pages/home/HomePage.scss";
 
 const HomePage = () => {
+  /* ... (기존 state 및 핸들러들 유지) ... */
   const [isCardVisible, setIsCardVisible] = useState(false);
-  const timeoutRef = useRef(null); // 딜레이 타이머 저장용
-
-  // ✅ 마우스가 들어오면: 닫히려는 타이머 취소하고 보여주기
+  const timeoutRef = useRef(null);
   const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    setIsCardVisible(true);
+    /*...*/
   };
-
-  // ✅ 마우스가 나가면: 0.2초 뒤에 닫기 (바로 닫지 않음!)
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsCardVisible(false);
-    }, 200); // 0.2초 딜레이
+    /*...*/
   };
 
   return (
@@ -30,13 +22,16 @@ const HomePage = () => {
         onMouseLeave={handleMouseLeave} 
       />
 
-      <HeroSection 
+      {/* ✅ [복구] 여기서만 HeroSection이 나옴! */}
+      <HeroSection
         isCardVisible={isCardVisible}
         onCardEnter={handleMouseEnter}
         onCardLeave={handleMouseLeave}
       />
-      
+
       <PopularDestinations />
+      <TravelMore />
+      <Newsletter />
     </div>
   );
 };

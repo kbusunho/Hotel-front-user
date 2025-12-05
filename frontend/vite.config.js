@@ -1,24 +1,30 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite' /* ✅ loadEnv 추가 */
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    // ▼▼▼ 이 부분이 추가되었습니다 ▼▼▼
-    port: 5173,       // 5173 포트를 강제로 사용
-    strictPort: true, // 이미 사용 중이면 5174로 넘어가지 않고 에러를 띄움
-    host: true,       // Docker 컨테이너 외부에서도 접근 가능하도록 0.0.0.0 바인딩
-    // ▲▲▲ 여기까지 ▲▲▲
-    
-    proxy: {
-      '/api': {
-        target: process.env.VITE_API_URL || 'http://172.22.48.1:3000', // 도커 내부는 backend, 로컬은 환경변수/기본값 사용
-        changeOrigin: true,
-        secure: false,
-        logLevel: 'silent', // 프록시 에러 로그 숨김
-        timeout: 5000, // 5초 타임아웃
+export default defineConfig(({ mode }) => {
+  // ✅ .env 파일이나 시스템 환경변수를 불러옴
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    plugins: [react()],
+    server: {
+      port: 5173,
+      strictPort: true,
+      host: true,
+
+      proxy: {
+        '/api': {
+          /* ✅ 우선순위:
+             1. 환경변수 (VITE_API_URL)
+             2. 도커 내부 통신용 (http://backend:3000) -> 이게 핵심!
+             3. 로컬 테스트용 (http://localhost:3000)
+          */
+          target: env.VITE_API_URL || 'http://backend:3000',
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
-  },
+  }
 })
