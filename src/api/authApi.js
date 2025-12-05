@@ -17,5 +17,11 @@ export const authApi = {
     getMe: async () => {
         const response = await api.get('/api/auth/me');
         return response.data?.data; // unwrap successResponse.data
+    },
+
+    // 4. 프로필 업데이트(PATCH /api/auth/profile)
+    updateProfile: async (profileData) => {
+        const response = await api.patch('/api/auth/profile', profileData);
+        return response.data?.data; // unwrap successResponse.data
     }
 };

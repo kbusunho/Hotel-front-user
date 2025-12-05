@@ -73,6 +73,30 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("accessToken");
   };
 
+  const updateProfile = async (profileData) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      
+      // 테스트 토큰인 경우 로컬 상태 업데이트
+      if (token === "mock-token-12345") {
+        const updatedUser = {
+          ...user,
+          ...profileData
+        };
+        setUser(updatedUser);
+        return updatedUser;
+      }
+
+      // 실제 API 호출
+      const updatedUser = await authApi.updateProfile(profileData);
+      setUser(updatedUser);
+      return updatedUser;
+    } catch (error) {
+      console.error("프로필 업데이트 실패:", error);
+      throw error;
+    }
+  };
+
   useEffect(() => {
     const initAuth = async () => {
       const token = localStorage.getItem("accessToken");
@@ -113,6 +137,7 @@ export const AuthProvider = ({ children }) => {
         login,
         signup,
         logout,
+        updateProfile,
         setUser,
       }}
     >
