@@ -62,6 +62,7 @@ const AppRouter = () => {
 
           {/* 찜하기 페이지 */}
           <Route path="wishlist" element={<WishlistPage />} />
+          
 
           {/* 고객센터 */}
           <Route path="support">

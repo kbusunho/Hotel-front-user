@@ -3,7 +3,6 @@ import React, { useState, useRef } from "react";
 import HeroSection from "../../components/home/HeroSection";
 import PopularDestinations from "../../components/home/PopularDestinations";
 import TravelMore from "../../components/home/TravelMore";
-import Newsletter from "../../components/common/Newsletter";
 import "../../styles/pages/home/HomePage.scss";
 
 const HomePage = () => {
@@ -30,7 +29,6 @@ const HomePage = () => {
 
       <PopularDestinations />
       <TravelMore />
-      <Newsletter />
     </div>
   );
 };

@@ -2,20 +2,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { faFacebook, faGoogle, faApple } from "@fortawesome/free-brands-svg-icons";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useAuth } from "../../context/AuthContext";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-import "../../styles/pages/auth/SignupPage.scss";
-
-const signupImages = ["/images/login-bg-1.jpg", "/images/login-bg-2.jpg", "/images/login-bg-3.jpg"];
+import "../../styles/pages/auth/AuthPages.scss";
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -37,17 +30,16 @@ const SignupPage = () => {
     e.preventDefault();
 
     if (!formData.firstName || !formData.lastName) {
-      alert("Please enter your name.");
+      alert("이름을 입력해주세요.");
       return;
     }
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
-    // Backend expects name, email, password, phone
     const newUser = {
-      name: `${formData.firstName}${formData.lastName}`.trim(), // join without internal space
+      name: `${formData.firstName}${formData.lastName}`.trim(),
       email: formData.email,
       phone: formData.phone,
       password: formData.password,
@@ -58,124 +50,142 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="signup-page">
-      <div className="signup-container">
-        <div className="image-section">
-          <Swiper
-            spaceBetween={0}
-            slidesPerView={1}
-            loop={true}
-            speed={1000}
-            autoplay={{ delay: 3500, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            modules={[Autoplay, Pagination]}
-            className="signup-swiper"
-          >
-            {signupImages.map((img, index) => (
-              <SwiperSlide key={index}>
-                <img src={img} alt="Signup View" />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-image-section">
+          <img src="/images/login-bg-2.jpg" alt="Hotel" />
         </div>
 
-        <div className="form-section">
-          <h1 className="title">Sign up</h1>
-          <p className="subtitle">회원가입</p>
+        <div className="auth-form-section">
+          <div className="auth-form-wrapper">
+            <h1 className="auth-title">Sign up</h1>
+            <p className="auth-subtitle">회원가입</p>
 
-          <form className="signup-form" onSubmit={handleSignup}>
-            <div className="form-row">
-              <div className="input-group">
-                <input
-                  type="text"
-                  id="firstName"
-                  placeholder="Hong"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="firstName">First Name</label>
+            <form className="auth-form" onSubmit={handleSignup}>
+              <div className="form-row">
+                <div className="input-group">
+                  <label htmlFor="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    placeholder="Hong"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    placeholder="Gil-dong"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
               </div>
-              <div className="input-group">
-                <input
-                  type="text"
-                  id="lastName"
-                  placeholder="Gil-dong"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="lastName">Last Name</label>
+
+              <div className="form-row">
+                <div className="input-group">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="john.doe@gmail.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="phone">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    placeholder="+82 010-0000-0000"
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="form-row">
+
               <div className="input-group">
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="john.doe@gmail.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="email">Email</label>
+                <label htmlFor="password">Password</label>
+                <div className="password-wrapper">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    placeholder=".................."
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                  </button>
+                </div>
               </div>
+
               <div className="input-group">
-                <input
-                  type="tel"
-                  id="phone"
-                  placeholder="010-1234-5678"
-                  value={formData.phone}
-                  onChange={handleChange}
-                />
-                <label htmlFor="phone">Phone Number</label>
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <div className="password-wrapper">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    placeholder=".................."
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} />
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="input-group full-width">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                placeholder="...................."
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <label>Password</label>
-              <span className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
-                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-              </span>
-            </div>
-            <div className="input-group full-width">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                id="confirmPassword"
-                placeholder="...................."
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-              <label>Confirm Password</label>
-              <span className="toggle-password" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} />
-              </span>
-            </div>
-            <div className="form-options">
-              <label className="agree-term">
-                <input type="checkbox" required /> <span>약관 동의</span>
-              </label>
-            </div>
-            <button type="submit" className="btn-signup">계정 생성</button>
-            <div className="login-link">
-              <span>이미 계정이 있으신가요? </span>
-              <Link to="/login">로그인</Link>
-            </div>
-            <div className="divider"><span>Or Sign up with</span></div>
-            <div className="social-signup">
-              <button type="button" className="social-btn facebook"><FontAwesomeIcon icon={faFacebook} /></button>
-              <button type="button" className="social-btn google"><FontAwesomeIcon icon={faGoogle} /></button>
-              <button type="button" className="social-btn apple"><FontAwesomeIcon icon={faApple} /></button>
-            </div>
-          </form>
+
+              <div className="form-options">
+                <label className="checkbox-label">
+                  <input type="checkbox" required />
+                  <span>약관에 동의합니다</span>
+                </label>
+              </div>
+
+              <button type="submit" className="btn-submit">
+                계정 생성
+              </button>
+
+              <div className="signup-prompt">
+                <span>이미 계정이 있으신가요? </span>
+                <Link to="/login">로그인</Link>
+              </div>
+
+              <div className="divider">
+                <span>Or Sign up with</span>
+              </div>
+
+              <div className="social-buttons">
+                <button type="button" className="social-btn naver" aria-label="Sign up with Naver">
+                  N
+                </button>
+                <button type="button" className="social-btn google" aria-label="Sign up with Google">
+                  <FontAwesomeIcon icon={faGoogle} />
+                </button>
+                <button type="button" className="social-btn kakao" aria-label="Sign up with Kakao">
+                  K
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

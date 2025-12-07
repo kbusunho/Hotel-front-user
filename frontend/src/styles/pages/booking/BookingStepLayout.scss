@@ -1,26 +1,27 @@
-// 변수 설정 (이미지의 색상 추출)
+// 변수 설정
 $color-mint: #8dd3bb;
-$color-mint-light: #e7f6f2; // 아주 연한 배경용
+$color-mint-light: #e7f6f2;
 $color-black: #112211;
-$color-gray: #79747e; // 텍스트 회색
-$color-red: #ff8682; // 가격 등 강조색
+$color-gray: #79747e;
+$color-red: #ff8682;
 $border-color: #eaeaea;
-$border-radius: 12px;
+$border-radius: 16px;
 
 .booking-step-layout {
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
-    padding: 150px 20px 40px;
+    padding: 150px 20px 60px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: $color-black;
 
-    // 1. Breadcrumb
+    // 1. Breadcrumb (상단 경로)
     .breadcrumb {
         display: flex;
         align-items: center;
-        gap: 8px;
-        margin-bottom: 30px;
-        font-size: 14px;
+        gap: 16px;
+        margin-bottom: 40px;
+        font-size: 24px;
+        font-weight: bold;
 
         .location {
             color: $color-red;
@@ -32,15 +33,16 @@ $border-radius: 12px;
 
         svg {
             color: $color-gray;
+            font-size: 20px;
         }
     }
 
-    // 2. Main Layout (Left + Right)
+    // 2. Main Layout
     .content-container {
         display: flex;
-        gap: 40px;
+        gap: 50px;
 
-        @media (max-width: 900px) {
+        @media (max-width: 1100px) {
             flex-direction: column;
         }
 
@@ -49,17 +51,18 @@ $border-radius: 12px;
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 30px;
 
+            // 공통 섹션 카드 스타일
             .section-card {
                 background: white;
                 border: 1px solid $border-color;
                 border-radius: $border-radius;
-                padding: 24px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+                padding: 60px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
                 &.active {
-                    background-color: $color-mint; // 선택되었을 때 배경색
+                    background-color: $color-mint;
                     border-color: $color-mint;
                 }
             }
@@ -69,54 +72,66 @@ $border-radius: 12px;
                 .header-row {
                     display: flex;
                     justify-content: space-between;
-                    margin-bottom: 24px;
+                    align-items: flex-start;
+                    margin-bottom: 30px;
 
                     h2 {
-                        font-size: 20px;
-                        font-weight: 700;
+                        font-size: 36px;
+                        font-weight: 800;
                         margin: 0;
+                        line-height: 1.3;
                     }
 
                     .price {
                         color: $color-red;
                         font-weight: 700;
-                        font-size: 18px;
+                        font-size: 32px;
+                        white-space: nowrap;
                     }
                 }
 
                 .hotel-address-box {
                     display: flex;
-                    gap: 16px;
+                    gap: 24px;
                     border: 1px solid $border-color;
-                    border-radius: 8px;
-                    padding: 16px;
-                    margin-bottom: 30px;
+                    border-radius: 12px;
+                    padding: 30px;
+                    margin-bottom: 40px;
+                    background-color: #fbfbfb;
 
                     .logo-placeholder {
-                        width: 48px;
-                        height: 48px;
+                        width: 80px;
+                        height: 80px;
                         background: #eee;
                         border-radius: 50%;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        font-size: 10px;
+                        font-size: 20px;
+                        font-weight: bold;
+                        flex-shrink: 0;
                     }
 
                     .text-info {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+
                         strong {
                             display: block;
-                            margin-bottom: 4px;
+                            margin-bottom: 8px;
+                            font-size: 26px;
                         }
 
                         p {
-                            font-size: 13px;
+                            font-size: 18px;
                             color: $color-gray;
                             margin: 0;
                         }
                     }
                 }
 
+                // 체크인/아웃 타임라인
                 .check-in-out-timeline {
                     display: flex;
                     justify-content: space-between;
@@ -132,12 +147,12 @@ $border-radius: 12px;
 
                         .date {
                             font-weight: 700;
-                            font-size: 18px;
-                            margin-bottom: 4px;
+                            font-size: 28px;
+                            margin-bottom: 8px;
                         }
 
                         .label {
-                            font-size: 14px;
+                            font-size: 20px;
                             color: $color-gray;
                         }
                     }
@@ -147,17 +162,30 @@ $border-radius: 12px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        padding: 0 20px;
+                        padding: 0 40px;
                         color: $color-black;
 
                         .line {
                             flex: 1;
-                            height: 1px;
+                            height: 3px;
                             background-color: #ddd;
                         }
 
-                        .icon {
-                            margin: 0 10px;
+                        // 건물 아이콘
+                        .icon-circle {
+                            width: 70px;
+                            height: 70px;
+                            background-color: #f0f0f0;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: 0 20px;
+
+                            svg {
+                                font-size: 32px;
+                                color: $color-black;
+                            }
                         }
                     }
                 }
@@ -169,44 +197,46 @@ $border-radius: 12px;
                 justify-content: space-between;
                 align-items: center;
                 cursor: pointer;
-                transition: background-color 0.2s;
+                transition: transform 0.2s;
+
+                &:hover {
+                    transform: scale(1.01);
+                }
 
                 h3 {
-                    font-size: 16px;
+                    font-size: 28px;
                     font-weight: 700;
-                    margin: 0 0 4px 0;
+                    margin: 0 0 10px 0;
                 }
 
                 p {
-                    font-size: 14px;
+                    font-size: 20px;
                     margin: 0;
                     opacity: 0.8;
                 }
 
                 .radio-circle {
-                    width: 20px;
-                    height: 20px;
-                    border: 2px solid $color-black; // 기본은 검은 테두리
+                    width: 36px;
+                    height: 36px;
+                    border: 3px solid $color-black;
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background: white; // 내부는 흰색
+                    background: white;
+                    flex-shrink: 0;
 
                     .inner-dot {
-                        width: 10px;
-                        height: 10px;
+                        width: 20px;
+                        height: 20px;
                         background-color: $color-black;
                         border-radius: 50%;
                     }
                 }
 
-                // 선택되지 않았을 때의 스타일
                 &:not(.active) {
-                    .text-group {
-                        p {
-                            color: $color-gray;
-                        }
+                    .text-group p {
+                        color: $color-gray;
                     }
 
                     .radio-circle {
@@ -214,7 +244,6 @@ $border-radius: 12px;
                     }
                 }
 
-                // 선택되었을 때 텍스트 색상 유지/변경 가능
                 &.active {
                     .radio-circle {
                         border-color: $color-black;
@@ -222,9 +251,9 @@ $border-radius: 12px;
                 }
             }
 
-            // Payment Method
+            // Payment Method (카드 정보)
             .payment-method {
-                background-color: $color-mint !important; // 강제 민트색
+                background-color: $color-mint !important;
 
                 .card-row {
                     display: flex;
@@ -234,30 +263,31 @@ $border-radius: 12px;
                     .card-info {
                         display: flex;
                         align-items: center;
-                        gap: 12px;
+                        gap: 24px;
 
                         .card-brand {
                             background: #1a1f71;
                             color: white;
                             font-weight: bold;
-                            padding: 4px 8px;
-                            border-radius: 4px;
-                            font-size: 12px;
+                            padding: 12px 20px;
+                            border-radius: 8px;
+                            font-size: 20px;
                         }
 
                         .card-number {
                             font-weight: 600;
+                            font-size: 28px;
                         }
 
                         .card-expiry {
-                            font-size: 14px;
+                            font-size: 22px;
                             color: #444;
                         }
                     }
 
                     .radio-circle {
-                        width: 20px;
-                        height: 20px;
+                        width: 36px;
+                        height: 36px;
                         border-radius: 50%;
                         background: white;
                         display: flex;
@@ -265,8 +295,8 @@ $border-radius: 12px;
                         justify-content: center;
 
                         .inner-dot {
-                            width: 10px;
-                            height: 10px;
+                            width: 20px;
+                            height: 20px;
                             background: $color-black;
                             border-radius: 50%;
                         }
@@ -274,27 +304,34 @@ $border-radius: 12px;
                 }
             }
 
+            // Add New Card
             .add-new-card {
-                border: 2px dashed $color-mint;
+                border: 3px dashed $color-mint;
                 border-radius: $border-radius;
-                padding: 30px;
+                padding: 60px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
-                gap: 10px;
+                gap: 20px;
                 color: $color-gray;
 
                 .plus-circle {
-                    width: 40px;
-                    height: 40px;
-                    border: 1px solid $color-mint;
+                    width: 70px;
+                    height: 70px;
+                    border: 3px solid $color-mint;
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     color: $color-mint;
+                    font-size: 30px;
+                }
+
+                span {
+                    font-size: 22px;
+                    font-weight: 700;
                 }
 
                 &:hover {
@@ -305,9 +342,9 @@ $border-radius: 12px;
 
         // --- Right Column (Sidebar) ---
         .sidebar-column {
-            width: 380px;
+            width: 500px; // 사이드바 너비 500px 유지
 
-            @media (max-width: 900px) {
+            @media (max-width: 1100px) {
                 width: 100%;
             }
 
@@ -315,20 +352,25 @@ $border-radius: 12px;
                 background: white;
                 border: 1px solid $border-color;
                 border-radius: $border-radius;
-                padding: 24px;
+                padding: 40px;
 
                 .hotel-summary {
                     display: flex;
-                    gap: 16px;
-                    margin-bottom: 20px;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 30px; // 사진과 텍스트 사이 간격도 조금 더 늘림
+                    margin-bottom: 30px;
+                    text-align: center;
 
+                    // [수정] 썸네일 사진 초대형으로 확대
                     .thumbnail {
-                        width: 80px;
-                        height: 80px;
+                        width: 300px; // 200px -> 300px
+                        height: 300px; // 200px -> 300px
                         background: #ddd;
-                        border-radius: 8px;
+                        border-radius: 20px; // 라운드도 더 줌
                         overflow: hidden;
                         flex-shrink: 0;
+                        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); // 그림자도 더 진하게
 
                         .img-placeholder {
                             width: 100%;
@@ -336,34 +378,37 @@ $border-radius: 12px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            font-size: 10px;
+                            font-size: 16px;
                         }
                     }
 
                     .info {
+                        width: 100%;
+
                         .sub-text {
-                            font-size: 12px;
+                            font-size: 18px;
                             color: $color-gray;
-                            margin-bottom: 4px;
+                            margin-bottom: 10px;
                         }
 
                         h3 {
-                            font-size: 14px;
+                            font-size: 26px;
                             font-weight: 700;
-                            margin: 0 0 8px 0;
+                            margin: 0 0 16px 0;
                             line-height: 1.4;
                         }
 
                         .rating {
-                            font-size: 12px;
+                            font-size: 18px;
                             display: flex;
                             align-items: center;
-                            gap: 6px;
+                            justify-content: center;
+                            gap: 10px;
 
                             .badge {
                                 border: 1px solid $color-mint;
-                                padding: 2px 6px;
-                                border-radius: 4px;
+                                padding: 6px 12px;
+                                border-radius: 6px;
                                 font-weight: bold;
                             }
                         }
@@ -373,11 +418,11 @@ $border-radius: 12px;
                 .divider {
                     height: 1px;
                     background: $border-color;
-                    margin: 16px 0;
+                    margin: 30px 0;
                 }
 
                 .protection-text {
-                    font-size: 13px;
+                    font-size: 18px;
                     margin: 0;
 
                     strong {
@@ -386,17 +431,19 @@ $border-radius: 12px;
                 }
 
                 .price-details {
+                    margin-top: 30px;
+
                     h4 {
-                        margin: 0 0 12px 0;
-                        font-size: 14px;
+                        margin: 0 0 24px 0;
+                        font-size: 22px;
                         color: $color-black;
                     }
 
                     .row {
                         display: flex;
                         justify-content: space-between;
-                        margin-bottom: 8px;
-                        font-size: 14px;
+                        margin-bottom: 18px;
+                        font-size: 20px;
 
                         span {
                             color: $color-gray;
@@ -411,76 +458,13 @@ $border-radius: 12px;
                 .total-row {
                     display: flex;
                     justify-content: space-between;
-                    font-size: 18px;
-                    font-weight: 700;
+                    font-size: 32px;
+                    font-weight: 800;
+                    margin-top: 30px;
+                    padding-top: 30px;
+                    border-top: 2px dashed #ddd;
                 }
             }
-        }
-    }
-
-    // 3. Newsletter Section
-    .newsletter-section {
-        margin-top: 60px;
-        background-color: #cdeae1; // 민트보다 살짝 탁한 배경색 (이미지 참고)
-        border-radius: 20px;
-        padding: 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        position: relative;
-        overflow: hidden;
-
-        .newsletter-content {
-            z-index: 2;
-            max-width: 50%;
-
-            h2 {
-                font-size: 32px;
-                font-weight: 700;
-                margin-bottom: 8px;
-                line-height: 1.2;
-            }
-
-            .sub-title {
-                font-weight: 600;
-                opacity: 0.7;
-                margin-bottom: 4px;
-            }
-
-            .description {
-                margin-bottom: 24px;
-                color: #444;
-            }
-
-            .input-group {
-                display: flex;
-                gap: 12px;
-
-                input {
-                    padding: 12px 16px;
-                    border: none;
-                    border-radius: 4px;
-                    width: 250px;
-                    outline: none;
-                }
-
-                button {
-                    background-color: $color-black;
-                    color: white;
-                    padding: 12px 24px;
-                    border: none;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-weight: 600;
-                }
-            }
-        }
-
-        .newsletter-illustration {
-            // 실제 이미지나 SVG를 배치할 영역
-            font-size: 100px;
-            line-height: 0.8;
-            opacity: 0.8;
         }
     }
 }
